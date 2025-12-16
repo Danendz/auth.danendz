@@ -49,6 +49,6 @@ class AuthService
             ]);
         }
 
-        return ['access_token' => $token, 'expires_in' => auth('api')->factory()->getTTL() * 60];
+        return ['access_token' => $token, 'expires_in' => auth('api')->factory()->getTTL() * 3600];
     }
 }
