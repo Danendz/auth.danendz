@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -49,6 +48,6 @@ class AuthService
             ]);
         }
 
-        return ['access_token' => $token, 'expires_in' => auth('api')->factory()->getTTL() * 3600];
+        return ['access_token' => $token, 'expires_in' => auth('api')->factory()->getTTL() * 60];
     }
 }

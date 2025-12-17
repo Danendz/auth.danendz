@@ -24,7 +24,7 @@ class AuthController extends Controller
             $data['device_name'] ?? 'api',
         );
 
-        return (new AuthResponseResource($result))->response()->setStatusCode(201);
+        return new AuthResponseResource($result)->response()->setStatusCode(201);
     }
 
     public function login(LoginRequest $request): AuthResponseResource
@@ -40,7 +40,7 @@ class AuthController extends Controller
         return new AuthResponseResource($result);
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
         $this->auth->logout();
 
