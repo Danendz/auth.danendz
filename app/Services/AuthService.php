@@ -17,7 +17,7 @@ class AuthService
             'password' => Hash::make($password),
         ]);
 
-        return $this->create_token($user['email'], $user['password']);
+        return $this->create_token($email, $password);
     }
 
     public function login(string $email, string $password, string $deviceName = 'api'): array
