@@ -11,7 +11,7 @@ class AuthService
 {
     public function register(string $name, string $email, string $password, string $deviceName = 'api'): array
     {
-        $user = User::create([
+        User::create([
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
