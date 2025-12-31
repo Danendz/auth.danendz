@@ -7,17 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthResponseResource extends JsonResource
 {
-	public function toArray(Request $request): array
-	{
-		return [
-            'status' => 200,
-            'success' => true,
-            'message' => 'Success login',
-            'data' => array(
-                'token' => $this['access_token'],
-                'token_type' => 'bearer',
-                'expires_in' => $this['expires_in']
-            )
-		];
-	}
+    public function toArray(Request $request): array
+    {
+        return [
+            'token' => $this['access_token'],
+            'token_type' => 'bearer',
+            'expires_in' => $this['expires_in']
+        ];
+    }
 }

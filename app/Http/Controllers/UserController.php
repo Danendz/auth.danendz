@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ApiResponse;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    public function me(): UserResource
+    public function me(): JsonResponse
     {
-        return new UserResource(auth('api')->user());
+        return ApiResponse::success(new UserResource(auth('api')->user()));
     }
 }
