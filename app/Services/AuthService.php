@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -33,7 +34,7 @@ class AuthService
     {
         return [
             'access_token' => auth('api')->refresh(),
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => $this->get_expires_in(),
         ];
     }
 
@@ -48,6 +49,11 @@ class AuthService
             ]);
         }
 
-        return ['access_token' => $token, 'expires_in' => auth('api')->factory()->getTTL() * 60];
+        return ['access_token' => $token, 'expires_in' => $this->get_expires_in()];
+    }
+
+    private function get_expires_in(): float|int
+    {
+        return auth('api')->factory()->getTTL() * 60;
     }
 }
