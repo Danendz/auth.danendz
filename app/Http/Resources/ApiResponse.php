@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\JsonResponse;
 
-class ApiResponse
+final class ApiResponse
 {
-    public static function success($data = null, string $message = 'Success', int $status = 200): JsonResponse
+    public static function success(mixed $data = null, string $message = 'Success', int $status = 200): JsonResponse
     {
         return response()->json([
             'status' => $status,
@@ -16,7 +16,7 @@ class ApiResponse
         ], $status);
     }
 
-    public static function error($data = null, string $message = 'Internal error', int $status = 400): JsonResponse
+    public static function error(mixed $data = null, string $message = 'Success', int $status = 200): JsonResponse
     {
         return response()->json([
             'status' => $status,

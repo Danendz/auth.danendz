@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\ForceJsonResponseMiddleware;
 use App\Http\Resources\ApiResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -12,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -55,6 +57,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Token expired
             if ($e instanceof TokenExpiredException) {
+                Log::warning('Token expired', [
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'url' => $request->fullUrl(),
+                ]);
+
                 return ApiResponse::error(
                     data: $isDev ? get_error_data($e) : null,
                     message: $isDev ? $e->getMessage() : 'Token expired.',
@@ -80,7 +88,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 );
             }
 
-            // Иногда отсутствие Bearer-токена/проблемы auth middleware приходят как UnauthorizedHttpException
+            // Sometimes missing Bearer token or auth middleware issues come as UnauthorizedHttpException
             if ($e instanceof UnauthorizedHttpException || $e instanceof AuthenticationException) {
                 return ApiResponse::error(
                     data: $isDev ? get_error_data($e) : null,

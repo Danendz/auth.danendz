@@ -52,7 +52,8 @@ class AuthService
         return ['access_token' => $token, 'expires_in' => $this->get_expires_in()];
     }
 
-    private function get_expires_in() {
+    private function get_expires_in(): float|int
+    {
         return auth('api')->factory()->getTTL() * 60;
     }
 }
