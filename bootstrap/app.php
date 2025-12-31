@@ -9,7 +9,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Log;
 
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
@@ -54,12 +53,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Token expired
             if ($e instanceof TokenExpiredException) {
-                Log::warning('Token expired', [
-                    'ip' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                    'url' => $request->fullUrl(),
-                ]);
-
                 return ApiResponse::error(
                     data: $isDev ? $get_error_data($e) : null,
                     message: $isDev ? $e->getMessage() : 'Token expired.',
