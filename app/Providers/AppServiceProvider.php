@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Support\SentryBeforeSend;
 use Illuminate\Support\ServiceProvider;
+use Sentry\SentrySdk;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $client = SentrySdk::getCurrentHub()->getClient();
+
+        if ($client !== null) {
+            $client->getOptions()->setBeforeSendCallback(new SentryBeforeSend());
+        }
     }
 }
