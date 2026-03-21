@@ -9,6 +9,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/auth/me', [UserController::class, 'me']);
+    Route::put('/auth/me', [UserController::class, 'update']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
 
